@@ -253,7 +253,7 @@ abstract class Interpreter implements \IteratorAggregate {
                 $from = $this->conn->fetchColumn($sql, [$this->channel->getId(), $this->from], 0);
 
 				if ($from)
-					$this->from = (double)$from; // bigint conversion
+					$this->from = (float)$from; // bigint conversion
 			}
 
 			if (isset($this->to)) {
@@ -264,7 +264,7 @@ abstract class Interpreter implements \IteratorAggregate {
 					: 'SELECT MIN(timestamp) FROM data WHERE channel_id=? AND timestamp>?';
 				$to = $this->conn->fetchColumn($sql, array($this->channel->getId(), $this->to), 0);
 				if ($to)
-					$this->to = (double)$to; // bigint conversion
+					$this->to = (float)$to; // bigint conversion
 			}
 			elseif (isset($this->from)) {
 				// special case: when asking for from=now the _last_ tuple should be returned,
@@ -273,7 +273,7 @@ abstract class Interpreter implements \IteratorAggregate {
                 $to = $this->conn->fetchColumn($sql, [$this->channel->getId(), $this->from], 0);
                 if ($to) {
                     $this->to = $this->from; // bigint conversion
-                    $this->from = (double)$to; // bigint conversion
+                    $this->from = (float)$to; // bigint conversion
                 }
 			}
 		}

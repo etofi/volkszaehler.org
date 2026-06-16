@@ -67,7 +67,8 @@ trait SensorInterpreterAverageTrait {
 		}
 
 		// perform tuple packaging in SQL - can't do this for grouped queries
-		if (list($bitShift, $timestampOffset) = $this->applyBinaryTuplePackaging($rowCount)) {
+		if (($tuplePackaging = $this->applyBinaryTuplePackaging($rowCount))) {
+			list($bitShift, $timestampOffset) = $tuplePackaging;
 			// optimize package statement general case: tuple packaging
 			$sql = $this->weighedAverageSQL($sqlTimeFilter) .
 				   'GROUP BY (timestamp - ' . $timestampOffset . ') >> ' . $bitShift . ' ' .

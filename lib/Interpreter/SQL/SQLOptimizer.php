@@ -254,7 +254,8 @@ abstract class SQLOptimizer {
 			return false;
 
 		// perform tuple packaging in SQL
-		if (list($bitShift, $timestampOffset) = $this->applyBinaryTuplePackaging($rowCount)) {
+		if (($tuplePackaging = $this->applyBinaryTuplePackaging($rowCount))) {
+			list($bitShift, $timestampOffset) = $tuplePackaging;
 			// optimize packaging statement
 			$foo = array();
 			$sqlTimeFilter = self::buildDateTimeFilterSQL($this->from, $this->to, $foo);
